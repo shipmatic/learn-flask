@@ -1,7 +1,8 @@
 from flask import Flask  # импортируем из библиотеки flask класс Flask
 from flask import jsonify, request
 
-app = Flask(__name__)  # создаем объект app на основе класса Flask, (__name__) - имя нашего файла
+# создаем объект app на основе класса Flask, (__name__) - имя нашего файла
+app = Flask(__name__)
 
 # use Python Dict as DB
 storage = dict()
@@ -34,14 +35,15 @@ def delete_user(username):
     old_users = storage.copy()
     storage.pop(username, False)
     if username in old_users:
-        return 'User  was deleted'
+        return jsonify('user', username, 'was deleted')
     else:
-        return 'User doesnt exist or already deleted'
+        return jsonify('User', username, 'doesnt exist or already deleted')
 
 
 @app.route('/users/add/', methods=["POST"])
 def add_user_list():
     data = request.get_json()  # get json return dict loaded from json body
+    
     try:
         username = data['username']
     except Exception as e:
@@ -52,6 +54,8 @@ def add_user_list():
         storage[username] = dict()
         response = {'msg': 'user was added'}
     return jsonify(response)
+
+
 
 
 if __name__ == '__main__':  # если запускается через файл app.py, то проект должен запуститься как flask приложение
