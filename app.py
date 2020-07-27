@@ -35,9 +35,9 @@ def delete_user(username):
     old_users = storage.copy()
     storage.pop(username, False)
     if username in old_users:
-        return jsonify('user', username, 'was deleted')
+        return jsonify({'user', username, 'was deleted'})
     else:
-        return jsonify('User', username, 'doesnt exist or already deleted')
+        return jsonify({'User', username, 'doesnt exist or already deleted'})
 
 
 @app.route('/users/add/', methods=["POST"])
